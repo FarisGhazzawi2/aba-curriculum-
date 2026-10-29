@@ -1,0 +1,34 @@
+{
+  "version": "55.0.0",
+  "files": {
+    "1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2": {
+      "displayName": "ApiFunction/Code",
+      "source": {
+        "path": "asset.1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region-5ac68364": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "4d202a77e59b5b9df7dbef230ffeabeef7b1200c17a4743541ce1b0941b215fe": {
+      "displayName": "HrLeavePortalBackend Template",
+      "source": {
+        "path": "HrLeavePortalBackend.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-8fcc062c": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "4d202a77e59b5b9df7dbef230ffeabeef7b1200c17a4743541ce1b0941b215fe.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,38 @@
+[project]
+name = "hr-leave-portal"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Faris Ghazzawi", email = """
+faris.ghazzawi@sudoconsultants.com
+git config --global init.defaultBranch main
+
+
+
+
+git config --global user.email faris.ghazzawi@sudoconsultants.com""" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "aws-cdk-lib>=2.275.0",
+    "boto3>=1.43.121",
+    "constructs>=10.8.1",
+    "fastapi>=0.162.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+hr-leave-portal = "hr_leave_portal:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "boto3>=1.43.121",
+    "fastapi>=0.162.0",
+    "mangum>=0.22.0",
+    "uvicorn>=0.54.0",
+]

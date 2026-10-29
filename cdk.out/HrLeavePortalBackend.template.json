@@ -1,0 +1,866 @@
+{
+ "Resources": {
+  "HrTable0964620C": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "PK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "SK",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "PK",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "SK",
+      "KeyType": "RANGE"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrTable/Resource"
+   }
+  },
+  "ApiFunctionServiceRole52B9747B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/ServiceRole/Resource"
+   }
+  },
+  "ApiFunctionServiceRoleDefaultPolicy20A32B8D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "HrTable0964620C",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiFunctionServiceRoleDefaultPolicy20A32B8D",
+    "Roles": [
+     {
+      "Ref": "ApiFunctionServiceRole52B9747B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiFunctionCE271BD4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "HrTable0964620C"
+      }
+     }
+    },
+    "Handler": "handler.lambda_handler",
+    "Layers": [
+     {
+      "Ref": "SsmParameterValuehrleaveportalfastapilayerarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiFunctionServiceRole52B9747B",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.14",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "ApiFunctionServiceRoleDefaultPolicy20A32B8D",
+    "ApiFunctionServiceRole52B9747B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/Resource",
+    "aws:asset:path": "asset.1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiFunctionLogGroupB51C7C52": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ApiFunctionCE271BD4"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/LogGroup/Resource"
+   }
+  },
+  "HrApiAC1A9B33": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "HrApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Resource"
+   }
+  },
+  "HrApiDeployment45E51D6A34ee885b3da0b1fb3294715d12993beb": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    }
+   },
+   "DependsOn": [
+    "HrApiproxyANY8551CAB7",
+    "HrApiproxy59C5B759",
+    "HrApiANYB624B54F"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "HrApiDeploymentStageprod0007C856": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "HrApiDeployment45E51D6A34ee885b3da0b1fb3294715d12993beb"
+    },
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "HrApiproxy59C5B759": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HrApiAC1A9B33",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "{proxy+}",
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/{proxy+}/Resource"
+   }
+  },
+  "HrApiproxyANYApiPermissionHrLeavePortalBackendHrApiFCE37308ANYproxy4499C502": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiFunctionCE271BD4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "HrApiAC1A9B33"
+       },
+       "/",
+       {
+        "Ref": "HrApiDeploymentStageprod0007C856"
+       },
+       "/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY/ApiPermission.HrLeavePortalBackendHrApiFCE37308.ANY..{proxy+}"
+   }
+  },
+  "HrApiproxyANYApiPermissionTestHrLeavePortalBackendHrApiFCE37308ANYproxyAAEA54A3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiFunctionCE271BD4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "HrApiAC1A9B33"
+       },
+       "/test-invoke-stage/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY/ApiPermission.Test.HrLeavePortalBackendHrApiFCE37308.ANY..{proxy+}"
+   }
+  },
+  "HrApiproxyANY8551CAB7": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "ANY",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiFunctionCE271BD4",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HrApiproxy59C5B759"
+    },
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY/Resource"
+   }
+  },
+  "HrApiANYApiPermissionHrLeavePortalBackendHrApiFCE37308ANY6263D5C8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiFunctionCE271BD4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "HrApiAC1A9B33"
+       },
+       "/",
+       {
+        "Ref": "HrApiDeploymentStageprod0007C856"
+       },
+       "/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/ANY/ApiPermission.HrLeavePortalBackendHrApiFCE37308.ANY.."
+   }
+  },
+  "HrApiANYApiPermissionTestHrLeavePortalBackendHrApiFCE37308ANY242C499A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiFunctionCE271BD4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "HrApiAC1A9B33"
+       },
+       "/test-invoke-stage/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/ANY/ApiPermission.Test.HrLeavePortalBackendHrApiFCE37308.ANY.."
+   }
+  },
+  "HrApiANYB624B54F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "ANY",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiFunctionCE271BD4",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "HrApiAC1A9B33",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/ANY/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/6VU0W7TMBT9lvlx8gJsQ0h9a6GgiY6FtjygaKpu47vUzLEj29kIVv4d2Y7blLEJiafY516fc3xyk/Ps/N3b7PUJPJqzkt2fCb7N3MpCeU/h0Wwc6yTUim0zt4atwMKRBrTlliv5GTsycURCjWRCTgkltmv8ckV6SozS9uWOLReCy+paMQ/l0++bfL7cLOdfv81Xa0KJxlo9gMiV4GVHJoShsVp1pL+l7+9ksNNTAfWWQeY+trL0pgpHUD5wrWSN0g6qAjrUhkwKckpuKamxVrpb8V97V7xG1abuMhryyx1IJlAPO91K3xl2PXUEGJuPtYrQdUpuh+JiLBtdJ5t+naOuuTFcyZ5yqDO3VCFgMKatkc1Cdo3msuQNiGlZqnZ/o9jjD0wD3+CJ1CChQhYy4+i13RHWTfXQm0yuVZ4kUtKFG6rWQrm7koJL3Nf293ux+DxviMEbpxEOoSW6tfKVJypPYcZWFiz63M3I8F/goBelemouNmAMWpNN/YOai2zWlvdoZ2AwTodQlcncQlWftGqbwhExLL+kKY6UqaOn0PAKLD5Cl7lFGMclGjtteOEIwztohb2SFisN+zd1PFne+tE+ZhRJ6AdshOr8lQKfKTVvRkTQ8DSeaIHLQ7sZD+paLVTFSxBX7Civf8eDqQM7XVmoMFhK0Mh8KNIlGtXqEg/p5lr97BIcfyaHz/TZsIbCNdqdYjfh9ofLjSgG77Hv6LtLkjTWCkf0gKT3YW2TzgWAP3Gh/hD+T4bgKx7o+31UMSY/sqChRouahlH1gXJZ+cpNa5vW9jTv7E7JVxfZm8vs8uSH4fxs+ENly/j8DZNT4NfdBQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Parameters": {
+  "SsmParameterValuehrleaveportalfastapilayerarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/hr-leave-portal/fastapi-layer-arn"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Outputs": {
+  "HrApiEndpointEA4062A4": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "HrApiAC1A9B33"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "HrApiDeploymentStageprod0007C856"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "HrApiAC1A9B33"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "HrApiDeploymentStageprod0007C856"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "TableName": {
+   "Value": {
+    "Ref": "HrTable0964620C"
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
