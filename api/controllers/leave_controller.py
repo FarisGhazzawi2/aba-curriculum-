@@ -1,6 +1,8 @@
+from datetime import date
+
 from fastapi import APIRouter, Query
 
-from models import LeaveIn
+from models import LeaveIn, LeaveUpdate
 from services import leave_service
 
 router = APIRouter(tags=["leave"])
@@ -17,3 +19,9 @@ def list_leave(
     employee_id: str, month: str | None = Query(default=None, pattern=r"^\d{4}-\d{2}$")
 ):
     return {"leave": leave_service.list_for_employee(employee_id, month)}
+
+@router.put("/employees/{employee_id}/leave/{start_date}")
+def save_leave(employee_id: str, start_date: date, payload: LeaveUpdate):
+    return leave_service.save(
+        employee_id, start_date.isoformat(), payload.model_dump(mode="json")
+    )
