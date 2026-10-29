@@ -1,0 +1,158 @@
+{
+  "/HrLeavePortalStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "HrLeavePortalStack.template.json"
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalQueue": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "visibilityTimeout": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalTopic": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/HrLeavePortalStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalQueue/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrLeavePortalQueue688705CF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalQueue/Policy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "queues": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalQueue/HrLeavePortalStackHrLeavePortalTopicFC30FF83": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "topic": "*",
+        "endpoint": "*",
+        "protocol": "sqs",
+        "rawMessageDelivery": "*",
+        "filterPolicy": "*",
+        "filterPolicyWithMessageBody": "*",
+        "region": "*",
+        "deadLetterQueue": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalTopic/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrLeavePortalTopic2DCF392F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/CDKMetadata/Condition": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadataAvailable"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalQueue/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrLeavePortalQueuePolicyF9420B7F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalStack/HrLeavePortalQueue/HrLeavePortalStackHrLeavePortalTopicFC30FF83/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrLeavePortalQueueHrLeavePortalStackHrLeavePortalTopicFC30FF830AA55CED"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}

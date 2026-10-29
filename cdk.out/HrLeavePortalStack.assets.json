@@ -1,0 +1,20 @@
+{
+  "version": "55.0.0",
+  "files": {
+    "6acfd1ed9665b3c693d0157e79d5650bd215e798c7eb39673c61c6f47e77cb48": {
+      "displayName": "HrLeavePortalStack Template",
+      "source": {
+        "path": "HrLeavePortalStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-774ad656": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "6acfd1ed9665b3c693d0157e79d5650bd215e798c7eb39673c61c6f47e77cb48.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

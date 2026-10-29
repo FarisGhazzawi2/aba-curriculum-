@@ -1,0 +1,579 @@
+{
+  "/HrLeavePortalBackend": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "HrLeavePortalBackend.template.json"
+    }
+  ],
+  "/HrLeavePortalBackend/HrTable": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "partitionKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "sortKey": {
+          "name": "*",
+          "type": "S"
+        },
+        "billingMode": "PAY_PER_REQUEST",
+        "removalPolicy": "destroy"
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/SsmParameterValue:--hr-leave-portal--fastapi-layer-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SsmParameterValuehrleaveportalfastapilayerarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "environment": "*",
+        "layers": [
+          "*"
+        ],
+        "memorySize": "*",
+        "timeout": "*",
+        "code": "*",
+        "handler": "*",
+        "runtime": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addEnvironment": [
+          "*",
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addLayers": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "defaultIntegration": "*",
+        "handler": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "handler": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/ApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/TableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TableName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrTable0964620C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrTable/ScalingRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiFunctionCE271BD4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiAC1A9B33"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Deployment": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "description": "*",
+        "api": "*",
+        "retainDeployments": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToLogicalId": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToLogicalId": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToLogicalId": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/DeploymentStage.prod": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "deployment": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiEndpointEA4062A4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/HrLeavePortalBackend/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/CDKMetadata/Condition": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadataAvailable"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiFunctionServiceRole52B9747B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiFunctionLogGroupB51C7C52"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiDeployment45E51D6A34ee885b3da0b1fb3294715d12993beb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiDeploymentStageprod0007C856"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/{proxy+}": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "parent": "*",
+        "defaultIntegration": "*",
+        "defaultMethodOptions": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "parent": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addMethod": [
+          "*"
+        ]
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/ANY": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "resource": "*",
+        "httpMethod": "*",
+        "integration": "*",
+        "options": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/ApiFunction/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiFunctionServiceRoleDefaultPolicy20A32B8D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/{proxy+}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiproxy59C5B759"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "resource": "*",
+        "httpMethod": "*",
+        "integration": "*",
+        "options": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/ANY/ApiPermission.HrLeavePortalBackendHrApiFCE37308.ANY..": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiANYApiPermissionHrLeavePortalBackendHrApiFCE37308ANY6263D5C8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/ANY/ApiPermission.Test.HrLeavePortalBackendHrApiFCE37308.ANY..": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiANYApiPermissionTestHrLeavePortalBackendHrApiFCE37308ANY242C499A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/ANY/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiANYB624B54F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY/ApiPermission.HrLeavePortalBackendHrApiFCE37308.ANY..{proxy+}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiproxyANYApiPermissionHrLeavePortalBackendHrApiFCE37308ANYproxy4499C502"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY/ApiPermission.Test.HrLeavePortalBackendHrApiFCE37308.ANY..{proxy+}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiproxyANYApiPermissionTestHrLeavePortalBackendHrApiFCE37308ANYproxyAAEA54A3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalBackend/HrApi/Default/{proxy+}/ANY/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrApiproxyANY8551CAB7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}
