@@ -114,7 +114,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "a3d9f5485be0a6e49db76a5e9ef470d6f04b510be94900039f6e76bcf306e3e3.zip"
+     "S3Key": "1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2.zip"
     },
     "Environment": {
      "Variables": {
@@ -145,7 +145,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/Resource",
-    "aws:asset:path": "asset.a3d9f5485be0a6e49db76a5e9ef470d6f04b510be94900039f6e76bcf306e3e3",
+    "aws:asset:path": "asset.1d8ea8d7f412eb031abaadc6343211fbd1187dec6187eac1db3c60bd582dadb2",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
