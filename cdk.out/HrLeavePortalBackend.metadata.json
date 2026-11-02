@@ -27,6 +27,16 @@
         "billingMode": "PAY_PER_REQUEST",
         "removalPolicy": "destroy"
       }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addGlobalSecondaryIndex": [
+          {
+            "indexName": "*"
+          }
+        ]
+      }
     }
   ],
   "/HrLeavePortalBackend/SsmParameterValue:--hr-leave-portal--fastapi-layer-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
