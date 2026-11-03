@@ -156,7 +156,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "ad116a684fbe9651a81f2ea9a45b14ac0401cc803525b987edc5d9e31ca0b714.zip"
+     "S3Key": "67b77a8da30d628c0092bd74ac033e8c41e58cecf4ed2253dbe140e62a391470.zip"
     },
     "Environment": {
      "Variables": {
@@ -187,7 +187,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/Resource",
-    "aws:asset:path": "asset.ad116a684fbe9651a81f2ea9a45b14ac0401cc803525b987edc5d9e31ca0b714",
+    "aws:asset:path": "asset.67b77a8da30d628c0092bd74ac033e8c41e58cecf4ed2253dbe140e62a391470",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -214,6 +214,102 @@
     "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/LogGroup/Resource"
    }
   },
+  "HrUserPool72C4CB16": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_phone_number",
+       "Priority": 1
+      },
+      {
+       "Name": "verified_email",
+       "Priority": 2
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": true
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UsernameAttributes": [
+     "email"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrUserPool/Resource"
+   }
+  },
+  "HrUserPoolHrUserPoolClientD3EB71D5": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AllowedOAuthFlows": [
+     "implicit",
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "profile",
+     "phone",
+     "email",
+     "openid",
+     "aws.cognito.signin.user.admin"
+    ],
+    "CallbackURLs": [
+     "https://example.com"
+    ],
+    "ExplicitAuthFlows": [
+     "ALLOW_USER_PASSWORD_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "UserPoolId": {
+     "Ref": "HrUserPool72C4CB16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrUserPool/HrUserPoolClient/Resource"
+   }
+  },
+  "HrAuthorizerF3081A9B": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "HrLeavePortalBackendHrAuthorizerC26703F5",
+    "ProviderARNs": [
+     {
+      "Fn::GetAtt": [
+       "HrUserPool72C4CB16",
+       "Arn"
+      ]
+     }
+    ],
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    },
+    "Type": "COGNITO_USER_POOLS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrAuthorizer/Resource"
+   }
+  },
   "HrApiAC1A9B33": {
    "Type": "AWS::ApiGateway::RestApi",
    "Properties": {
@@ -223,7 +319,7 @@
     "aws:cdk:path": "HrLeavePortalBackend/HrApi/Resource"
    }
   },
-  "HrApiDeployment45E51D6A34ee885b3da0b1fb3294715d12993beb": {
+  "HrApiDeployment45E51D6A9ef1537ca3953ba254e9d6102cad11bb": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -233,8 +329,11 @@
    },
    "DependsOn": [
     "HrApiproxyANY8551CAB7",
+    "HrApiproxyOPTIONSCD79FEBD",
     "HrApiproxy59C5B759",
-    "HrApiANYB624B54F"
+    "HrApiANYB624B54F",
+    "HrApiOPTIONS4EBBCAA0",
+    "HrAuthorizerF3081A9B"
    ],
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/HrApi/Deployment/Resource",
@@ -245,7 +344,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "HrApiDeployment45E51D6A34ee885b3da0b1fb3294715d12993beb"
+     "Ref": "HrApiDeployment45E51D6A9ef1537ca3953ba254e9d6102cad11bb"
     },
     "RestApiId": {
      "Ref": "HrApiAC1A9B33"
@@ -254,6 +353,52 @@
    },
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/HrApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "HrApiOPTIONS4EBBCAA0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "HrApiAC1A9B33",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/OPTIONS/Resource"
    }
   },
   "HrApiproxy59C5B759": {
@@ -272,6 +417,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/{proxy+}/Resource"
+   }
+  },
+  "HrApiproxyOPTIONSCD79FEBD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HrApiproxy59C5B759"
+    },
+    "RestApiId": {
+     "Ref": "HrApiAC1A9B33"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalBackend/HrApi/Default/{proxy+}/OPTIONS/Resource"
    }
   },
   "HrApiproxyANYApiPermissionHrLeavePortalBackendHrApiFCE37308ANYproxy4499C502": {
@@ -361,7 +549,10 @@
   "HrApiproxyANY8551CAB7": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
-    "AuthorizationType": "NONE",
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HrAuthorizerF3081A9B"
+    },
     "HttpMethod": "ANY",
     "Integration": {
      "IntegrationHttpMethod": "POST",
@@ -488,7 +679,10 @@
   "HrApiANYB624B54F": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
-    "AuthorizationType": "NONE",
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HrAuthorizerF3081A9B"
+    },
     "HttpMethod": "ANY",
     "Integration": {
      "IntegrationHttpMethod": "POST",
@@ -534,7 +728,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/6VUUW/TMBD+LfPj5AXYhpD61kGZKjoWmvKAoqq6xrfUzLEj29kWrPx3ZDtpU8YmJJ5y+e783XefLzlPzj+8T96ewKM5K9j9meDbxGUWinsKj2bjWCuhUmybuBVsBeaO1KAtt1zJL9iSiSMSKiQTckoosW3tw4x0lBil7esVWy4El+WNYh5Kpz826Wy5Wc6+fZ9lK0KJxko9gEiV4EVLJoShsVq1pKOOAGPXQm1BZFgoyUC3c8nwiUxyR7iPvg49u3W3ph/vZJDfUQHVlkHiPjey8EPkjqB84FrJCqXtVQpoURsyyckpWVNSYaV0m/Ff+yl4haoZqos4gA93IJlA3b/pRvrKKCOKno175aHqlKz75GLcNqoeZPo4RV1xY7iSHeVQJW6pwoWAMU2F7Cp4XWsuC16DmBaFavYTxRp/YBr4ek2kAgklsuAxRxP8G2PtVMvBxihypdKhxXAzueuz1kKxm0vBJe5z+/leTb7MG2zwwmmEg2kD3Ur5zLMuz2HGMgsWve9mJPgvcOgXW3XUXGzAGLQmmfoHNRfJVVPco70Cg3E7hCpN4haqvNaqqXNHRB+ONtBTDhUdhZqXYPER2sQtwjou0dhpzXNHGN5BI+xcWiw17G/qeLO89KP36FEkoZ+wFqr1IwU+U2hej4ig5sN6ogUuD+VmvKgrtVAlL0DM2ZFf/44HUQd2mlkoMUgaoJH4kKRLNKrRBR7cTbV6agc4/nwOn+mLZvWJG7Q7xW7D9IfhRhS99lh39N0NLWnM5Y7oHhnuw9p6OBcA/kyF+qPxfzIEXfFA1+2tijb5lQUNFVrUNKyqN5TL0mduG1s3tqNpa3dKvrlI3l0mlyc/Dedn/R8qWcbnb21ZXJgNBgAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1W32/bNhD+W8rHgNHWpsMAvzmeWxhNFs12HgbBCM7iWWZDkRpJ1VUJ/e8DSdFWmqTFMKBogT6JujvdfffdD+pV9ur337JfX8DBnJfs/lzwbeZWFsp7Cgdz51gnoVZsm7k1bAUWjjSgLbdcyXfYkYkjEmokE3JGKLFd448r0lNilLZftthyIbisrhXzonz6910+X94t53/dzldrQonGWn0AkSvBy45MCENjtepITx0Bxt4KtQWxwlJJBrpbSIYfyaRwhPvTnylmv+k3dLaTAX5PBdRbBpl708rSJ1E4gvID10rWKO2AUkCH2pBJQc7IhpIaa6W7Ff90zILXqNpkXcYE/HEPkgnUw5tupbeMMCLo+ThWEazOyGZQXo3DRtQJpj/nqGtuDFeypxzqzC1VKAgY09bILgPXjeay5A2IaVmq9phRtPEfTIO/AROpQUKFLHDM0QT+xrJuqmWiMYJcqzyFSJUp3KC1Fsr9Qgou8ag75vdF5fN+Aw0eOI3iQFpyt1Ze8yjKYzFjKwsWPe9mBPgJcYgXQ/XUXNyBMWhNNvUPai6yy7a8R3sJBmN3CFWZzF2p6q1WbVM4IobjqAO9y2TR01JVkluVuVuDOldKFO7ZXqfEoNiteCVvm7n0LczIZAfCICWGV3Ihp4KD8ZVzBGvggkysbrGPQVMEmg4zwVHawpF2EKT+aO3+jVCH4CfowJiD0iy6o0G20s2T3qPTnkLDK7B4gC5zs5hkMjHT1u6V5p9QR9pmO3kS0aswlUs0dtrwwhGGO2iFXUiLlYZjw9KkmCltco07wau9vWm8QUAOQqjDjeYV9+8xMy+6RrtXzKSuH7xE6fjzAVGIuI6rKrETkSYP40H3nfRd4oqjE0mlf2AjVFfH6jM0pebNiFhoeNpaaIHLk7kZ76+1ulIVL0Es2IMx+n7kIekTerqyUGFIOYlG5AQlXaJRrS7xNNSxAmEuoyrtd2ubqBsE/FGHqsdl8/UYvy3YZ/V7WNc+VOMddkv8p+V6NPHP9UEdIC3RNEqaYYsbC7Y1s9PdpAd1DhpqtOGmiYt94PL6gZf/6oT+JOtbkTWM4//0EAYgfkBzrT52aQziP97pb+hry/izdXVaFglNvLKD8AcpcqjQiIQnEtoc12sgre+Pa+R4wR390vD34JcNl5XX3LS2aW1P887ulfzlInv5Onv94r3h/Hz4acyW8fkvBfHn06ALAAA="
    },
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/CDKMetadata/Default"
@@ -609,6 +803,16 @@
   "TableName": {
    "Value": {
     "Ref": "HrTable0964620C"
+   }
+  },
+  "UserPoolId": {
+   "Value": {
+    "Ref": "HrUserPool72C4CB16"
+   }
+  },
+  "UserPoolClientId": {
+   "Value": {
+    "Ref": "HrUserPoolHrUserPoolClientD3EB71D5"
    }
   }
  },
