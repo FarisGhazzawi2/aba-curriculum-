@@ -1,6 +1,41 @@
 {
   "version": "55.0.0",
   "artifacts": {
+    "HrLeavePortalNotifications.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "HrLeavePortalNotifications.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "HrLeavePortalNotifications": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "HrLeavePortalNotifications.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bb2df75eb2fd14132122d4a460804c76b0ae31205a7ac8a6256a5f3d4ad4c94e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "HrLeavePortalNotifications.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "HrLeavePortalNotifications.assets"
+      ],
+      "additionalMetadataFile": "HrLeavePortalNotifications.metadata.json",
+      "displayName": "HrLeavePortalNotifications"
+    },
     "HrLeavePortalBackend.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
@@ -18,7 +53,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f3b4dd211059ff4cc784c0d195bcb42624880d714745d0d6780e2553016986ff.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8dd654bb861a5570aa0407dcdce763f9c64a8106e2dd59f2bd57d2c25a0fac3f.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -31,10 +66,47 @@
         }
       },
       "dependencies": [
+        "HrLeavePortalStateMachine",
         "HrLeavePortalBackend.assets"
       ],
       "additionalMetadataFile": "HrLeavePortalBackend.metadata.json",
       "displayName": "HrLeavePortalBackend"
+    },
+    "HrLeavePortalStateMachine.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "HrLeavePortalStateMachine.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "HrLeavePortalStateMachine": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "HrLeavePortalStateMachine.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2d3f039d057457a48963774915be7f4ee640971397fa4793cbede9172873cc40.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "HrLeavePortalStateMachine.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "HrLeavePortalNotifications",
+        "HrLeavePortalStateMachine.assets"
+      ],
+      "additionalMetadataFile": "HrLeavePortalStateMachine.metadata.json",
+      "displayName": "HrLeavePortalStateMachine"
     },
     "Tree": {
       "type": "cdk:tree",

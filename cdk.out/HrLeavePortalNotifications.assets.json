@@ -1,0 +1,20 @@
+{
+  "version": "55.0.0",
+  "files": {
+    "bb2df75eb2fd14132122d4a460804c76b0ae31205a7ac8a6256a5f3d4ad4c94e": {
+      "displayName": "HrLeavePortalNotifications Template",
+      "source": {
+        "path": "HrLeavePortalNotifications.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-96f1b683": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "bb2df75eb2fd14132122d4a460804c76b0ae31205a7ac8a6256a5f3d4ad4c94e.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

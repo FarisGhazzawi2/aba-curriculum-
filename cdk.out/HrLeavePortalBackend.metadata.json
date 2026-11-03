@@ -83,6 +83,16 @@
           "*"
         ]
       }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addEnvironment": [
+          "*",
+          "*",
+          "*"
+        ]
+      }
     }
   ],
   "/HrLeavePortalBackend/HrUserPool": [
@@ -267,6 +277,14 @@
       "data": {
         "attachInlinePolicy": [
           "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
         ]
       }
     },
@@ -501,6 +519,14 @@
       "data": {
         "attachToRole": [
           "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
         ]
       }
     },

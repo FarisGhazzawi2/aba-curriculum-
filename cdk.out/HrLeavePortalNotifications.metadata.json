@@ -1,0 +1,138 @@
+{
+  "/HrLeavePortalNotifications": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "HrLeavePortalNotifications.template.json"
+    }
+  ],
+  "/HrLeavePortalNotifications/HrEmailTopic": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/HrLeavePortalNotifications/HrEmailTopicArn": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrEmailTopicArn"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/HrEmailTopic/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrEmailTopic915EFFDB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/HrEmailTopic/faris.ghazzawi@sudoconsultants.com": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "topic": "*",
+        "endpoint": "*",
+        "protocol": "email",
+        "filterPolicy": "*",
+        "filterPolicyWithMessageBody": "*",
+        "deadLetterQueue": "*"
+      }
+    }
+  ],
+  "/HrLeavePortalNotifications/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/CDKMetadata/Condition": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadataAvailable"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/Publish/Output{\"Ref\":\"HrEmailTopic915EFFDB\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublishOutputRefHrEmailTopic915EFFDB04D484E8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/HrLeavePortalNotifications/HrEmailTopic/faris.ghazzawi@sudoconsultants.com/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HrEmailTopicfarisghazzawisudoconsultantscom9C98F1F9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, jsii runtime, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}

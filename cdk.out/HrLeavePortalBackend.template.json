@@ -134,6 +134,19 @@
          ]
         }
        ]
+      },
+      {
+       "Action": "states:StartExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetStackOutput": {
+         "StackName": "HrLeavePortalStateMachine",
+         "Region": {
+          "Ref": "AWS::Region"
+         },
+         "OutputName": "PublishOutputFnGetAttHrStateMachineArn1924BBEB"
+        }
+       }
       }
      ],
      "Version": "2012-10-17"
@@ -156,12 +169,21 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "67b77a8da30d628c0092bd74ac033e8c41e58cecf4ed2253dbe140e62a391470.zip"
+     "S3Key": "cc2f9783a0bba15652e2eea8b2a5a462e093908f44998343b2e0a44ad8f71a19.zip"
     },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
        "Ref": "HrTable0964620C"
+      },
+      "HR_STATE_MACHINE_ARN": {
+       "Fn::GetStackOutput": {
+        "StackName": "HrLeavePortalStateMachine",
+        "Region": {
+         "Ref": "AWS::Region"
+        },
+        "OutputName": "PublishOutputFnGetAttHrStateMachineArn1924BBEB"
+       }
       }
      }
     },
@@ -187,7 +209,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/ApiFunction/Resource",
-    "aws:asset:path": "asset.67b77a8da30d628c0092bd74ac033e8c41e58cecf4ed2253dbe140e62a391470",
+    "aws:asset:path": "asset.cc2f9783a0bba15652e2eea8b2a5a462e093908f44998343b2e0a44ad8f71a19",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -728,7 +750,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1W32/bNhD+W8rHgNHWpsMAvzmeWxhNFs12HgbBCM7iWWZDkRpJ1VUJ/e8DSdFWmqTFMKBogT6JujvdfffdD+pV9ur337JfX8DBnJfs/lzwbeZWFsp7Cgdz51gnoVZsm7k1bAUWjjSgLbdcyXfYkYkjEmokE3JGKLFd448r0lNilLZftthyIbisrhXzonz6910+X94t53/dzldrQonGWn0AkSvBy45MCENjtepITx0Bxt4KtQWxwlJJBrpbSIYfyaRwhPvTnylmv+k3dLaTAX5PBdRbBpl708rSJ1E4gvID10rWKO2AUkCH2pBJQc7IhpIaa6W7Ff90zILXqNpkXcYE/HEPkgnUw5tupbeMMCLo+ThWEazOyGZQXo3DRtQJpj/nqGtuDFeypxzqzC1VKAgY09bILgPXjeay5A2IaVmq9phRtPEfTIO/AROpQUKFLHDM0QT+xrJuqmWiMYJcqzyFSJUp3KC1Fsr9Qgou8ag75vdF5fN+Aw0eOI3iQFpyt1Ze8yjKYzFjKwsWPe9mBPgJcYgXQ/XUXNyBMWhNNvUPai6yy7a8R3sJBmN3CFWZzF2p6q1WbVM4IobjqAO9y2TR01JVkluVuVuDOldKFO7ZXqfEoNiteCVvm7n0LczIZAfCICWGV3Ihp4KD8ZVzBGvggkysbrGPQVMEmg4zwVHawpF2EKT+aO3+jVCH4CfowJiD0iy6o0G20s2T3qPTnkLDK7B4gC5zs5hkMjHT1u6V5p9QR9pmO3kS0aswlUs0dtrwwhGGO2iFXUiLlYZjw9KkmCltco07wau9vWm8QUAOQqjDjeYV9+8xMy+6RrtXzKSuH7xE6fjzAVGIuI6rKrETkSYP40H3nfRd4oqjE0mlf2AjVFfH6jM0pebNiFhoeNpaaIHLk7kZ76+1ulIVL0Es2IMx+n7kIekTerqyUGFIOYlG5AQlXaJRrS7xNNSxAmEuoyrtd2ubqBsE/FGHqsdl8/UYvy3YZ/V7WNc+VOMddkv8p+V6NPHP9UEdIC3RNEqaYYsbC7Y1s9PdpAd1DhpqtOGmiYt94PL6gZf/6oT+JOtbkTWM4//0EAYgfkBzrT52aQziP97pb+hry/izdXVaFglNvLKD8AcpcqjQiIQnEtoc12sgre+Pa+R4wR390vD34JcNl5XX3LS2aW1P887ulfzlInv5Onv94r3h/Hz4acyW8fkvBfHn06ALAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1WUW/bNhD+LeVjwGhr02GA3xzXLYwmi2Y7D4NgBGfxLHOhSI2k6qqE/ntBUrSVpMk2DBg6YE+i7o53393HO/JN9ubnn7IfX8HBnJfs/lzwbeZWFsp7Cgdz51gnoVZsm7k1bAUWjjSgLbdcyY/YkYkjEmokE3JGKLFd45cr0lNilLYvW2y5EFxW14p5UT797S6fL++W819v56s1oURjrT6ByJXgZUcmhKGxWnWkp44AYx+E2oJYYakkA90tJMPPZFI4wv3qlxSz3/QbOtvJAL+nAuotg8y9b2XpkygcQfmJayVrlHZAKaBDbcikIGdkQ0mNtdLdin85ZsFrVG2yLmMCfrkHyQTq4U+30ltGGBH0fByrCFZnZDMor8ZhX9oQN4W0Uh5+naOuuTFcyZ5yqDO3VIExMKatkV0GMhrNZckbENOyVO0x5WjjN0yDvwE0qUFChSyQwNGEAo9l3VTLVOeIeK3yFCJRV7hBay2U+4UUXOJRd0z2ReXLfp/XhiL5tGgUhxKmYGvlNU8wPBUztrJg0bNgHoT9q+IAIyLoqbm4A2PQmmzqP9RcZJdteY/2EgzGMydUZTJ3paoPWrVN4YgYlqNz7V0mi56WqpLcqszdGtS5UqJwz3YQJQbFbsUredvMpW8MRiY7EAYpMbySCzkVHIyn2xGsgQsysbrFPgZNEWhazARHaQtH2kGQDlVr9++FOgQ/QQfGHJRm0R0NspVuvuk9Ou0pNLwCiwfoMjeLSSYTM23tXmn+BXUs22wnTyJ6FXp9icZOG144wnAHrbALabHScDzlNClmSptc407wam9vGm8QkIMQ6nCjecX9f8zMi67R7hUzqVUGL1E63j4gChHXcQCm6kSkycN4fPiT9F3iih0Vi0rfYSNUV0f2GZpS82ZUWGh4moVogcuTuRlPxbW6UhUvQSzYo6b+XuQh6RN6urJQYUg5iUbFCUq6RKNaXeKpqSMDoS+jKt0a1jZRNwj4kxOqntLm+Rj/Ldgj/h7y2gc2PmK3xD9arkcd/9w5qAOkJZpGSTOMfmPBtmZ2uvH0oM5BQ4023F/xNhhqef3Ay991Qv8v1r9VrKEd/6GH0ABxA821+tylNogvx9Mb68+G8aNxdRoWCU28yYPwP0JyYGhUhG8ktDmO11C0vj+OkeMFd/RLw+vBDxsuK6+5aW3T2p7mnd0r+cNF9vpt9vbV74bz8+Epmi3j9yuty/gP9gsAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "HrLeavePortalBackend/CDKMetadata/Default"

@@ -1,0 +1,424 @@
+{
+ "Resources": {
+  "HrStateMachineRoleFD847CE7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "states.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalStateMachine/HrStateMachineRole/Resource"
+   }
+  },
+  "HrStateMachineRoleDefaultPolicy097E0671": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel",
+        "cloudwatch:PutMetricData"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetStackOutput": {
+         "StackName": "HrLeavePortalNotifications",
+         "Region": {
+          "Ref": "AWS::Region"
+         },
+         "OutputName": "PublishOutputRefHrEmailTopic915EFFDB04D484E8"
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "HrStateMachineRoleDefaultPolicy097E0671",
+    "Roles": [
+     {
+      "Ref": "HrStateMachineRoleFD847CE7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalStateMachine/HrStateMachineRole/DefaultPolicy/Resource"
+   }
+  },
+  "HrStateMachine": {
+   "Type": "AWS::StepFunctions::StateMachine",
+   "Properties": {
+    "DefinitionString": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"StartAt\": \"Route By Request Type\", \"QueryLanguage\": \"JSONata\", \"States\": {\"Route By Request Type\": {\"Type\": \"Choice\", \"Choices\": [{\"Condition\": \"{% $states.input.hr_request_type = \\\"TimeOff\\\" %}\", \"Next\": \"Build TimeOff Body\"}], \"Default\": \"Bedrock InvokeModel\"}, \"Build TimeOff Body\": {\"Type\": \"Pass\", \"Output\": {\"email_body\": \"{% 'Time off request from ' & $states.input.user_id & '. Requested dates: ' & $states.input.start_date & ' to ' & $states.input.end_date & '.' %}\"}, \"Next\": \"SNS Publish\"}, \"Bedrock InvokeModel\": {\"Type\": \"Task\", \"Resource\": \"arn:aws:states:::bedrock:invokeModel\", \"Arguments\": {\"ModelId\": \"us.amazon.nova-2-lite-v1:0\", \"Body\": {\"messages\": [{\"role\": \"user\", \"content\": [{\"text\": \"{% $states.input.prompt %}\"}]}], \"inferenceConfig\": {\"maxTokens\": 200}}}, \"Output\": {\"email_body\": \"{% $states.result.Body.output.message.content[0].text %}\"}, \"Next\": \"SNS Publish\"}, \"SNS Publish\": {\"Type\": \"Task\", \"Resource\": \"arn:aws:states:::sns:publish\", \"Arguments\": {\"Message\": \"{% $states.input.email_body %}\", \"TopicArn\": \"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "HrLeavePortalNotifications",
+         "Region": {
+          "Ref": "AWS::Region"
+         },
+         "OutputName": "PublishOutputRefHrEmailTopic915EFFDB04D484E8"
+        }
+       },
+       "\"}, \"Next\": \"PutMetricData\"}, \"PutMetricData\": {\"Type\": \"Task\", \"Resource\": \"arn:aws:states:::aws-sdk:cloudwatch:putMetricData\", \"Arguments\": {\"Namespace\": \"HR\", \"MetricData\": [{\"MetricName\": \"HrRequests\", \"Value\": 1, \"Unit\": \"Count\", \"Timestamp\": \"{% $now() %}\", \"Dimensions\": [{\"Name\": \"hr_request_type\", \"Value\": \"{% $states.context.Execution.Input.hr_request_type %}\"}, {\"Name\": \"user_id\", \"Value\": \"{% $states.context.Execution.Input.user_id %}\"}]}]}, \"End\": true}}}"
+      ]
+     ]
+    },
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "HrStateMachineRoleFD847CE7",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalStateMachine/HrStateMachine"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5WQwWoCMRCGn8UcJZtWaynszXryUCrqTaSkSZadmp0sZoIsIe9esttaykKxp8D3/5n5krmYPz2K+4m8+ELpU2HhXcQdSXXi8uLfIshGxK2z5hCZ9D40Rj93rIysPQMqaKVdKuUCEivZlPGvTr6wVAQOe5wSj0xqvXcbZ0F1rDzEdPyB36NGKZFU9RotoLlmbMpuCP+e+0+VI19VmN/EB5zXXA32LicjsTHWekeSTGOQ/K+1t+JeYzBI3JNpq4D9J3uxqrCvv0hVA5qUm6+B2kCJbzqqHd49iNlCLCYfHqA4ByRojNgO5ydxfyFdBQIAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "HrLeavePortalStateMachine/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "HrStateMachineArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "HrStateMachine",
+     "Arn"
+    ]
+   }
+  },
+  "PublishOutputFnGetAttHrStateMachineArn1924BBEB": {
+   "Value": {
+    "Fn::GetAtt": [
+     "HrStateMachine",
+     "Arn"
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
