@@ -15,9 +15,11 @@ class LeaveIn(BaseModel):
     endDate: date
     note: str = ""
 
+
 class LeaveUpdate(BaseModel):
     endDate: date
     note: str = ""
+
 
 class TimeOffRequestIn(BaseModel):
     user_id: str

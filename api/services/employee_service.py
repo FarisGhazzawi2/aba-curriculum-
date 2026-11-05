@@ -37,10 +37,15 @@ def get(employee_id: str) -> dict | None:
 def list_all() -> list[dict]:
     response = table.query(KeyConditionExpression=Key("PK").eq("USER"))
     return response["Items"]
-    
+
+
 def list_by_hire_date(hired_from: str, hired_to: str) -> list[dict]:
     response = table.query(
         IndexName="GSI1",
         KeyConditionExpression=Key("GSI1PK").eq("USER_BY_DATE")
         & Key("GSI1SK").between(hired_from, hired_to))
     return response["Items"]
+
+
+def delete(employee_id: str) -> None:
+    table.delete_item(Key={"PK": "USER", "SK": employee_id})
