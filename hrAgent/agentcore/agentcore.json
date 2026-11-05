@@ -1,0 +1,20 @@
+{
+  "name": "hrAgent",
+  "version": 2,
+  "managedBy": "CDK",
+  "runtimes": [],
+  "memories": [],
+  "knowledgeBases": [],
+  "credentials": [],
+  "evaluators": [],
+  "onlineEvalConfigs": [],
+  "agentCoreGateways": [],
+  "policyEngines": [],
+  "configBundles": [],
+  "harnesses": [
+    {
+      "name": "hrAgent",
+      "path": "app/hrAgent"
+    }
+  ]
+}
