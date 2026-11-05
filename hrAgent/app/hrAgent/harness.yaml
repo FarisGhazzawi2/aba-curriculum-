@@ -6,7 +6,7 @@ name: hrAgent
 # https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_HarnessModelConfiguration.html
 model:
   bedrockModelConfig:
-    modelId: global.anthropic.claude-sonnet-5-5
+    modelId: us.amazon.nova-2-lite-v1:0
 # Optional tuning fields depend on the selected model; omit unsupported parameters.
     # temperature: 0.2
     # topP: 0.9
