@@ -58,7 +58,12 @@ class BackendStack(Stack):
             layers=[fastapi_layer],
             timeout=Duration.seconds(10),
             memory_size=512,
-            environment={"TABLE_NAME": table.table_name},
+            environment={
+                "TABLE_NAME": table.table_name,
+                "POWERTOOLS_SERVICE_NAME": "hr-api",
+                "POWERTOOLS_LOG_LEVEL": "INFO",
+            },
+            tracing=lambda_.Tracing.ACTIVE,
         )
 
         table.grant_read_write_data(api_function)
@@ -96,6 +101,24 @@ class BackendStack(Stack):
                 authorization_type=apigw.AuthorizationType.COGNITO,
                 authorizer=authorizer,
             ),
+        )
+
+        # Authorizer rejections (401/403) and gateway errors (5XX) never reach FastAPI's
+        # CORS middleware, so add the CORS headers here; otherwise the browser reports
+        # them as CORS failures and the UI cannot read the status. Origins stay '*'.
+        gateway_cors_headers = {
+            "Access-Control-Allow-Origin": "'*'",
+            "Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        }
+        self.api.add_gateway_response(
+            "Default4xxCors",
+            type=apigw.ResponseType.DEFAULT_4_XX,
+            response_headers=gateway_cors_headers,
+        )
+        self.api.add_gateway_response(
+            "Default5xxCors",
+            type=apigw.ResponseType.DEFAULT_5_XX,
+            response_headers=gateway_cors_headers,
         )
 
         CfnOutput(self, "ApiUrl", value=self.api.url)
