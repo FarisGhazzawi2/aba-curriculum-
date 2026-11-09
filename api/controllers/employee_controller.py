@@ -30,3 +30,14 @@ def get_employee(employee_id: str):
         raise HTTPException(status_code=404, detail="Employee not found")
 
     return employee
+
+
+@router.put("/employees/{employee_id}")
+def save_employee(employee_id: str, payload: EmployeeIn):
+    return employee_service.save(employee_id, payload.model_dump(mode="json"))
+
+
+@router.delete("/employees/{employee_id}")
+def delete_employee(employee_id: str):
+    employee_service.delete(employee_id)
+    return {"deleted": employee_id}
