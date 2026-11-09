@@ -79,4 +79,7 @@ class AgentRuntimeStack(Stack):
                 ])
         )
 
+        # Exposed for the UI stack's config.json (object passing, as app.py already does).
+        self.agent_runtime_arn = agent_runtime.agent_runtime_arn
+
         CfnOutput(self, "AgentRuntimeArn", value=agent_runtime.agent_runtime_arn)
