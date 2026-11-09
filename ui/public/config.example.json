@@ -1,0 +1,7 @@
+{
+  "apiUrl": "https://abc123def4.execute-api.us-east-1.amazonaws.com/prod/",
+  "region": "us-east-1",
+  "userPoolId": "us-east-1_EXAMPLE00",
+  "userPoolClientId": "exampleclientid0000000000",
+  "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-east-1:111111111111:runtime/hrAgent-EXAMPLE0000"
+}
