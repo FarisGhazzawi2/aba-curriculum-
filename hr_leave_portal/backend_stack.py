@@ -101,6 +101,8 @@ class BackendStack(Stack):
                 authorization_type=apigw.AuthorizationType.COGNITO,
                 authorizer=authorizer,
             ),
+            # Adds the API Gateway node in front of the Lambda on the X-Ray trace map.
+            deploy_options=apigw.StageOptions(tracing_enabled=True),
         )
 
         # Authorizer rejections (401/403) and gateway errors (5XX) never reach FastAPI's

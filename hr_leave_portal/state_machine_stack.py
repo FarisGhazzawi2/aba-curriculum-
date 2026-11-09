@@ -44,11 +44,25 @@ class StateMachineStack(Stack):
             iam.PolicyStatement(actions=["cloudwatch:PutMetricData"], resources=["*"])
         )
 
+        # X-Ray tracing is off by default; the role needs these to send traces.
+        state_machine_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "xray:PutTraceSegments",
+                    "xray:PutTelemetryRecords",
+                    "xray:GetSamplingRules",
+                    "xray:GetSamplingTargets",
+                ],
+                resources=["*"])
+        )
+
         hr_state_machine = sfn.CfnStateMachine(
             self,
             "HrStateMachine",
             role_arn=state_machine_role.role_arn,
-            definition_string=json.dumps(state_machine_definition))
+            definition_string=json.dumps(state_machine_definition),
+            tracing_configuration=sfn.CfnStateMachine.TracingConfigurationProperty(
+                enabled=True))
 
         api_function.add_environment(
             "HR_STATE_MACHINE_ARN", hr_state_machine.attr_arn)
