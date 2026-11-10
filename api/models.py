@@ -21,12 +21,12 @@ class LeaveUpdate(BaseModel):
     note: str = ""
 
 
+# No user_id on the HR request models: who the request is from comes from the
+# caller's token. A user_id a client still sends is ignored.
 class TimeOffRequestIn(BaseModel):
-    user_id: str
     start_date: date
     end_date: date
 
 
 class HrRequestIn(BaseModel):
-    user_id: str
     prompt: str

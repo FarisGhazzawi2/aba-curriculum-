@@ -19,8 +19,12 @@ def create(data: dict) -> dict:
 
 
 @tracer.capture_method
-def save(employee_id: str, data: dict) -> dict:
-    """Create or replace an employee."""
+def save(employee_id: str, data: dict, cognito_sub: str | None = None) -> dict:
+    """Create or replace an employee.
+
+    cognito_sub links the record to a login. PutItem replaces the whole item, so a
+    caller replacing an existing record passes the old link through to keep it.
+    """
     item = {
         "PK": "USER",
         "SK": employee_id,
@@ -32,6 +36,8 @@ def save(employee_id: str, data: dict) -> dict:
         "startDate": data["startDate"],
         "role": data.get("role", "employee"),
     }
+    if cognito_sub:
+        item["cognitoSub"] = cognito_sub
     table.put_item(Item=item)
     return item
 
