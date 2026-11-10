@@ -1,8 +1,10 @@
 from aws_cdk import (
+    Acknowledgment,
     CfnOutput,
     Duration,
     RemovalPolicy,
     Stack,
+    Validations,
     aws_apigateway as apigw,
     aws_cognito as cognito,
     aws_dynamodb as dynamodb,
@@ -142,4 +144,24 @@ class BackendStack(Stack):
         CfnOutput(self, "UserPoolId", value=self.user_pool.user_pool_id)
         CfnOutput(
             self, "UserPoolClientId", value=self.user_pool_client.user_pool_client_id
+        )
+
+        # cdk-nag findings we've read and decided to accept. Keep them last so they're
+        # easy to find, and never add one without a reason.
+        Validations.of(self).acknowledge(
+            Acknowledgment(
+                id="AwsSolutions::AwsSolutions-COG2",
+                reason="WORKSHOP ONLY. MFA is not enabled to keep sign-in to one step. A real "
+                       "HR system must enable it (Cognito mfa=REQUIRED with TOTP), and would "
+                       "be expected to before holding real employee data.",
+            ),
+            Acknowledgment(
+                id="AwsSolutions::AwsSolutions-IAM4[Policy::arn:<AWS::Partition>:iam::aws:"
+                   "policy/service-role/AWSLambdaBasicExecutionRole]",
+                reason="The API function's only managed policy. It grants just "
+                       "logs:CreateLogGroup, logs:CreateLogStream and logs:PutLogEvents, which "
+                       "every Lambda needs to write its logs; all data access is in the "
+                       "scoped inline policy above. Revisit if a broader managed policy is "
+                       "ever attached.",
+            ),
         )

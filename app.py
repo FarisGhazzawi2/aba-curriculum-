@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import aws_cdk as cdk
+from aws_cdk import Validations
+# from cdk_nag import AwsSolutionsChecks
+
 from hr_leave_portal.agent_runtime_stack import AgentRuntimeStack
 from hr_leave_portal.backend_stack import BackendStack
 from hr_leave_portal.dashboard_stack import DashboardStack
@@ -8,6 +11,11 @@ from hr_leave_portal.state_machine_stack import StateMachineStack
 from hr_leave_portal.ui_stack import UiStack
 
 app = cdk.App()
+
+# Uncomment to audit every stack against the AWS Solutions rule pack. Synth
+# fails while findings are unacknowledged, which is the point of it.
+# (31 errors left on 2026-11-11; acknowledged ones live at the end of each stack.)
+# Validations.of(app).add_plugins(AwsSolutionsChecks(app, verbose=True))
 
 notifications = NotificationStack(app, "HrLeavePortalNotifications")
 

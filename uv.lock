@@ -171,6 +171,21 @@ wheels = [
 ]
 
 [[package]]
+name = "cdk-nag"
+version = "3.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aws-cdk-lib" },
+    { name = "constructs" },
+    { name = "jsii" },
+    { name = "publication" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/af/a0/bc4cb0b639c56ba1f5459ecbf2540597ee5af1afd7b79632548e165f6d14/cdk_nag-3.0.2.tar.gz", hash = "sha256:c34f8128ac28368b34cb5d77ba21a5d541e652596d8ea844f608c0b76dc91f0d", size = 734951, upload-time = "2026-08-04T10:07:03.282Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7e/2f/5a0e2b20eccd6afb31f8214ddbcd981bac2ea624281d133cbb914235fa16/cdk_nag-3.0.2-py3-none-any.whl", hash = "sha256:861d8d30f5eb062d23462013bd6719fa355428f5525208b61f50da813065ea71", size = 732820, upload-time = "2026-08-04T10:07:01.37Z" },
+]
+
+[[package]]
 name = "certifi"
 version = "2026.10.23"
 source = { registry = "https://pypi.org/simple" }
@@ -468,6 +483,7 @@ dependencies = [
 dev = [
     { name = "aws-lambda-powertools", extra = ["tracer"] },
     { name = "boto3" },
+    { name = "cdk-nag" },
     { name = "fastapi" },
     { name = "httpx" },
     { name = "mangum" },
@@ -489,6 +505,7 @@ requires-dist = [
 dev = [
     { name = "aws-lambda-powertools", extras = ["tracer"], specifier = ">=3.39.0" },
     { name = "boto3", specifier = ">=1.43.121" },
+    { name = "cdk-nag", specifier = ">=3.0.2" },
     { name = "fastapi", specifier = ">=0.162.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "mangum", specifier = ">=0.22.0" },
