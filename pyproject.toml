@@ -38,6 +38,7 @@ dev = [
     "httpx>=0.28.1",
     "mangum>=0.22.0",
     "moto>=5.2.5",
+    "pip-audit>=2.10.1",
     "pytest>=9.2.0",
     "uvicorn>=0.54.0",
 ]

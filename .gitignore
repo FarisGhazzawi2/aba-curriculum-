@@ -50,3 +50,7 @@ aidlc/.aidlc-readonly-latch
 .kiro/steering/aidlc-active-memory.md
 .kiro/agents/aidlc-scoped-review-*.md
 # END AI-DLC:gitignore
+
+# Automated Security Helper (ASH) scan output: reports are milestone artifacts,
+# shared with reviewers directly rather than committed.
+.ash/
