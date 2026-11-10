@@ -95,6 +95,54 @@ def test_api_lambda_role_can_send_traces_to_xray(template: Template):
     )
 
 
+def test_api_lambda_role_has_only_the_four_dynamodb_actions_the_code_uses(template: Template):
+    # Least privilege: no Scan, UpdateItem or batch actions, so a Scan added to the
+    # code later fails with AccessDenied instead of quietly reading the whole table.
+    policies = template.find_resources("AWS::IAM::Policy")
+    dynamodb_actions = set()
+    for policy in policies.values():
+        for statement in policy["Properties"]["PolicyDocument"]["Statement"]:
+            actions = statement["Action"]
+            actions = [actions] if isinstance(actions, str) else actions
+            dynamodb_actions.update(a for a in actions if a.startswith("dynamodb:"))
+
+    assert dynamodb_actions == {
+        "dynamodb:PutItem",
+        "dynamodb:GetItem",
+        "dynamodb:Query",
+        "dynamodb:DeleteItem",
+    }
+
+
+def test_api_lambda_dynamodb_access_covers_the_table_and_its_indexes(template: Template):
+    # Querying GSI1 needs the /index/* ARN as well as the table ARN.
+    template.has_resource_properties(
+        "AWS::IAM::Policy",
+        {
+            "PolicyDocument": {
+                "Statement": Match.array_with(
+                    [
+                        Match.object_like(
+                            {
+                                "Action": Match.array_with(["dynamodb:Query"]),
+                                "Resource": [
+                                    {"Fn::GetAtt": [Match.any_value(), "Arn"]},
+                                    {
+                                        "Fn::Join": [
+                                            "",
+                                            [{"Fn::GetAtt": [Match.any_value(), "Arn"]}, "/index/*"],
+                                        ]
+                                    },
+                                ],
+                            }
+                        )
+                    ]
+                )
+            }
+        },
+    )
+
+
 def test_api_lambda_has_exactly_one_layer_attached(api_function: dict):
     assert len(api_function["Properties"]["Layers"]) == 1
 

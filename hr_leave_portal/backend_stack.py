@@ -6,6 +6,7 @@ from aws_cdk import (
     aws_apigateway as apigw,
     aws_cognito as cognito,
     aws_dynamodb as dynamodb,
+    aws_iam as iam,
     aws_lambda as lambda_,
     aws_ssm as ssm,
 )
@@ -66,7 +67,20 @@ class BackendStack(Stack):
             tracing=lambda_.Tracing.ACTIVE,
         )
 
-        table.grant_read_write_data(api_function)
+        # Only the four actions api/services actually call. Deliberately no Scan:
+        # every access pattern in this app is a GetItem or a Query, so if a Scan
+        # ever appears in the code, we want it to fail loudly here. The index ARN
+        # is what lets list_by_hire_date query GSI1.
+        api_function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "dynamodb:PutItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:Query",
+                    "dynamodb:DeleteItem",
+                ],
+                resources=[table.table_arn, f"{table.table_arn}/index/*"])
+        )
 
         self.api_function = api_function
         self.table = table

@@ -1,6 +1,7 @@
 import json
 
 from aws_cdk import (
+    Aws,
     CfnOutput,
     Stack,
     aws_iam as iam,
@@ -10,6 +11,11 @@ from aws_cdk import (
 from constructs import Construct
 
 STATE_MACHINE_DEFINITION_FILE = "state_machines/hr_state_machine_definition.json"
+
+# The only model the workflow invokes, from the "Bedrock InvokeModel" state in the
+# definition file. Keep the two in step.
+WORKFLOW_MODEL_ID = "us.amazon.nova-2-lite-v1:0"
+WORKFLOW_FOUNDATION_MODEL = "amazon.nova-2-lite-v1:0"
 
 
 class StateMachineStack(Stack):
@@ -34,17 +40,31 @@ class StateMachineStack(Stack):
             "HrStateMachineRole",
             assumed_by=iam.ServicePrincipal("states.amazonaws.com"))
 
+        # The "us." profile and the foundation model it routes to (us-east-1,
+        # us-east-2 or us-west-2); IAM authorizes both hops.
         state_machine_role.add_to_policy(
-            iam.PolicyStatement(actions=["bedrock:InvokeModel"], resources=["*"])
+            iam.PolicyStatement(
+                actions=["bedrock:InvokeModel"],
+                resources=[
+                    f"arn:aws:bedrock:{Aws.REGION}:{Aws.ACCOUNT_ID}:"
+                    f"inference-profile/{WORKFLOW_MODEL_ID}",
+                    f"arn:aws:bedrock:*::foundation-model/{WORKFLOW_FOUNDATION_MODEL}",
+                ])
         )
 
         hr_email_topic.grant_publish(state_machine_role)
 
+        # PutMetricData has no resource ARN, so "*" is required; the condition key
+        # limits it to the HR namespace the workflow writes to.
         state_machine_role.add_to_policy(
-            iam.PolicyStatement(actions=["cloudwatch:PutMetricData"], resources=["*"])
+            iam.PolicyStatement(
+                actions=["cloudwatch:PutMetricData"],
+                resources=["*"],
+                conditions={"StringEquals": {"cloudwatch:namespace": "HR"}})
         )
 
         # X-Ray tracing is off by default; the role needs these to send traces.
+        # These X-Ray actions support no resource-level permissions, so "*" it is.
         state_machine_role.add_to_policy(
             iam.PolicyStatement(
                 actions=[
