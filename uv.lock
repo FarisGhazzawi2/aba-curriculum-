@@ -69,6 +69,12 @@ wheels = [
 ]
 
 [[package]]
+name = "aws-cdk-cli"
+version = "2.1148.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d2/5c/65398e88aa57475d38efead4ebfb646b7ed85be5cd0d80479d7e16498d3f/aws_cdk_cli-2.1148.1.tar.gz", hash = "sha256:1059d4f484b5c0f17e672c93ab019e511a1fa6392d2503271803ed4e460f4d2c", size = 8290546, upload-time = "2026-11-11T13:48:38.898Z" }
+
+[[package]]
 name = "aws-cdk-cloud-assembly-schema"
 version = "55.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -541,6 +547,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "aws-cdk-cli" },
     { name = "aws-lambda-powertools", extra = ["tracer"] },
     { name = "boto3" },
     { name = "cdk-nag" },
@@ -564,6 +571,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "aws-cdk-cli", specifier = ">=2.1148.1" },
     { name = "aws-lambda-powertools", extras = ["tracer"], specifier = ">=3.39.0" },
     { name = "boto3", specifier = ">=1.43.121" },
     { name = "cdk-nag", specifier = ">=3.0.2" },
