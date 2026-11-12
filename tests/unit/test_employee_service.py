@@ -141,6 +141,6 @@ def test_save_defaults_role_to_employee_when_role_omitted(employee_service, tabl
     result = employee_service.save("def67890", data)
 
     # Assert
-    assert result["role"] == "employee"
+    assert result["role"] == "manager"  # TEMPORARY: deliberately wrong, proves the CI gate fails
     stored = table.get_item(Key={"PK": "USER", "SK": "def67890"})["Item"]
     assert stored["role"] == "employee"
